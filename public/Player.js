@@ -1,11 +1,15 @@
+let Card = require('./Card.js').default;
+
 class Player {
-    constructor() {
+    constructor(ws) {
         this.hand = [];
         this.closed = [];
         this.open = [];
         this.ready = false;
+        this.ws = ws;
     }
 
+    
     /**
      * Adds a card to the player's hand
      */
@@ -72,3 +76,5 @@ class Player {
         this.ready = true;
     }
 }
+
+module.exports = Player;

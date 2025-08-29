@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idiot Card Game</title>
+    <link rel="stylesheet" href="/play.css"></link>
+</head>
+<body>
+    <script src="/Card.js"></script>
+    <script src="/play.js"></script>
+
+    <div id="top-bar">
+        <button id="draw-button" onclick="drawCard()">Draw Card</button>
+    </div>
+
+    <div id="table">
+        <div id="pile">
+            <!-- Pile will be dynamically updated in play.js -->
+        </div>
+        <div id="stock">
+            <img class="card" src="/assets/back.jpg" alt="Stock" id="stock-pile">
+        </div>
+    </div>
+    
+
+    <div id="hand">
+        <!-- Cards will be dynamically added in play.js -->
+    </div>
+    <div id="blocker"></div>
+</body>
+</html>

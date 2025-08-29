@@ -1,9 +1,10 @@
-// German card layout 52 cards
+// English card layout 52 cards
 class Card {
-    static SUITS = ["♠", "♥", "♦", "♣"];
+
+    static SUITS = ["S", "H", "D", "C"];
     static RANKS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; // 11=J, 12=Q, 13=K, 14=A
     /**
-     * All 52 cards as strings, e.g. "♠2", "♥14" (Ace)
+     * All 52 cards as strings, e.g. "S2", "H14"
      */
     static CARDS = (() => {
         const cards = [];
@@ -16,7 +17,7 @@ class Card {
     })();
 
     /**
-     * Converts a string like "♠2" or "♥A" to a Card instance
+     * Converts a string like "S2" or "HA" to a Card instance
      */
     static toCard(str) {
         const suit = str[0];
@@ -38,7 +39,7 @@ class Card {
 
     /**
      * Creates a card with given suit and rank
-     * @param {string} suit - One of "♠", "♥", "♦", "♣"
+     * @param {string} suit - One of "S" (♠), "H" (♥), "D" (♦), "C" (♣)
      * @param {number} rank - 2-14 (11=J, 12=Q, 13=K, 14=A)
      */
     constructor(suit, rank) {
@@ -67,7 +68,7 @@ class Card {
     }
 
     /**
-     * Returns a string representation, e.g. "♠A"
+     * Returns a string representation, e.g. "SA"
      */
     toString() {
         let publicRank = "";
@@ -87,6 +88,9 @@ class Card {
             default:
                 publicRank = this.rank;
         }
+        console.log("Card toString:", this.suit, this.rank, publicRank);
         return `${this.suit}${publicRank}`;
     }
 }
+
+module.exports = Card;

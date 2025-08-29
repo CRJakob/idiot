@@ -1,3 +1,23 @@
+let Card = require('./Card.js');
+let Player = require('./Player.js');
+
+const SUITS = ["S", "H", "D", "C"];
+const RANKS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; // 11=J, 12=Q, 13=K, 14=A
+
+/**
+ * All 52 cards as strings, e.g. "S2", "H14"
+ */
+const CARDS = (() => {
+    const cards = [];
+    for (let s of SUITS) {
+        for (let r of RANKS) {
+            cards.push(`${s}${r}`);
+        }
+    }
+    return cards;
+})();
+
+
 class Game {
     /**
      * Game state: pile, stock, graveyard, players, turn
@@ -6,9 +26,13 @@ class Game {
         this.pile = [];
         this.stock = [];
         this.graveyard = [];
-        this.players = [new Player()];
+        this.players = [];
         this.turn = 0;
     }
+
+    getPile() { return this.pile; }
+    getStock() { return this.stock; }
+    getGraveyard() { return this.graveyard; }
 
     /**
      * Adds a player to the game
@@ -21,7 +45,9 @@ class Game {
      * Deals cards to all players: 3 closed, 3 open, 3 hand
      */
     dealCards() {
-        this.stock = Card.CARDS.slice();
+        this.stock = CARDS.slice();
+        this.stock.forEach(card => { this.stock[this.stock.indexOf(card)] = new Card(card[0], parseInt(card.slice(1))); });
+        console.log(this.stock);
         this.stock = this.stock.sort(() => Math.random() - 0.5); // shuffle
         this.players.forEach(player => {
             player.setClosed(this.stock.splice(0, 3));
@@ -99,3 +125,5 @@ class Game {
         this.turn = (this.turn + 1) % this.players.length;
     }
 }
+
+module.exports = Game;
