@@ -1,0 +1,8 @@
+{
+    "back": "/assets/back.jpg",
+    "front": "/assets/cards/",
+    "num_ext": ".png",
+    "face_ext": ".jpg",
+    "table": "/assets/table.svg",
+    "null": "/assets/null.png"
+}
