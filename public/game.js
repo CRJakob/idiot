@@ -6,7 +6,7 @@ class Game {
         this.pile = [];
         this.stock = [];
         this.graveyard = [];
-        this.players = [];
+        this.players = [new Player()];
         this.turn = 0;
     }
 

@@ -51,5 +51,5 @@ server.listen(PORT, () => {
 });
 
 // --- GAME ---
-let Game = require('./game.js');
+let Game = require('./public/game.js');
 
