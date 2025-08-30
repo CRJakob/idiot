@@ -21,7 +21,7 @@ class Player {
      * Removes and returns the card at hand[index], or null if index==-1
      */
     playCard(index) {
-        if ([0, 1, 2].includes(index) && index < this.hand.length) {
+        if (index < this.hand.length) {
             return this.hand.splice(index, 1)[0];
         } else if (index === -1) {
             return null;

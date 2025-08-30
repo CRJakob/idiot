@@ -42,6 +42,22 @@ class Game {
     }
 
     /**
+     * Remove a player from the game
+     * @param {Player} player - The player to remove
+     */
+    removePlayer(player) {
+        this.players = this.players.filter(p => p !== player);
+    }
+
+    /**
+     * Remove a player by their websocket
+     * @param {WebSocket} ws - The websocket of the player to remove
+     */
+    removePlayer(ws) {
+        this.players = this.players.filter(p => p.ws !== ws);
+    }
+
+    /**
      * Deals cards to all players: 3 closed, 3 open, 3 hand
      */
     dealCards() {
@@ -67,8 +83,7 @@ class Game {
      * Player attempts to play a card from hand at index
      * Returns true if played, false if not
      */
-    playCard(index) {
-        const player = this.players[this.turn];
+    playCard(player, index) {
         const card = player.playCard(index);
         if (!card) return false;
         // If pile is empty, any card can be played
@@ -82,6 +97,10 @@ class Game {
             return false;
         }
     }
+
+    fromWS(ws) {
+        return this.players.find(p => p.ws === ws);
+    }
     /**
      * Refills player's hand from stock up to 3 cards
      */
@@ -91,7 +110,7 @@ class Game {
         }
     }
     /**
-     * Main turn logic: player tries to play, try luck, or fails
+     * Main turn logic: player tries to play, try luck, or fails 
      */
     playTurn() {
         const player = this.players[this.turn];

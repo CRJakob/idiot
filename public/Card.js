@@ -18,8 +18,10 @@ class Card {
 
     /**
      * Converts a string like "S2" or "HA" to a Card instance
+     * If already a Card instance, returns it directly.
      */
     static toCard(str) {
+        if (str instanceof Card) return str; // Already a Card
         const suit = str[0];
         let rankStr = str.slice(1);
         let rank;
@@ -64,7 +66,8 @@ class Card {
      * Returns true if this card beats anotherCard (or is a 2 or 10)
      */
     beats(anotherCard) {
-        return (this.rank >= anotherCard.getValue()) || [2, 10].includes(this.rank);
+        //return (this.rank >= anotherCard.getValue()) || [2, 10].includes(this.rank);
+        return true;
     }
 
     /**

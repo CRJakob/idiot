@@ -11,18 +11,36 @@
     <script src="/play.js"></script>
 
     <div id="top-bar">
-        <button id="draw-button" onclick="drawCard()">Draw Card</button>
+        <button id="draw-button" onclick="requestDrawCard()">Draw Card</button>
     </div>
 
     <div id="table">
+        <p id="pile-counter" class="counter"></p>
         <div id="pile">
             <!-- Pile will be dynamically updated in play.js -->
         </div>
         <div id="stock">
-            <img class="card" src="/assets/back.jpg" alt="Stock" id="stock-pile">
+            <img class="card" src="/assets/back.jpg" alt="Stock">
+        </div>
+        <p id="stock-counter" class="counter"></p>
+    </div>
+
+    <div class="table-cards" id="closed">
+        <div id="table-card-1" class="card">
+            <img class="card" src="/assets/back.jpg" alt="Stock">
+        </div>
+        <div id="table-card-2" class="card">
+            <img class="card" src="/assets/back.jpg" alt="Stock" id=>
+        </div>
+        <div id="table-card-3" class="card">
+            <img class="card" src="/assets/back.jpg" alt="Stock">
         </div>
     </div>
-    
+    <div class="table-cards">
+        <div id="open-table-card-1" class="card"></div>
+        <div id="open-table-card-2" class="card"></div>
+        <div id="open-table-card-3" class="card"></div>
+    </div>
 
     <div id="hand">
         <!-- Cards will be dynamically added in play.js -->

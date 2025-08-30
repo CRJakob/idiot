@@ -44,7 +44,7 @@ let host;
 let Game = require('./public/game.js');
 let Player = require('./public/Player.js');
 let Card = require('./public/Card.js').default;
-game = new Game();
+let game = new Game();
 
 const bypassTurn = true;
 
@@ -67,13 +67,29 @@ wss.on('connection', (ws) => {
                     if (game.stock.length > 0) {
                         const card = game.stock.pop();
                         game.players[game.turn].addCard(card);
-                        ws.send(JSON.stringify({ type: "command", string: "addCard", data: { card } }));
+                        ws.send(JSON.stringify({ type: "command", string: "addCard hand", data: { card } }));
                     } else {
                         ws.send(JSON.stringify({ type: "error", string: "Stock is empty" }));
                     }
-                } else {
-                    ws.send(JSON.stringify({ type: "error", string: "Not your turn" }));
-                }
+                } else { ws.send(JSON.stringify({ type: "error", string: "Not your turn" })); }
+                game.players.forEach((player) => informCounters(player.ws));
+                break;
+            }
+
+            case "command playCard": {
+                if ((game && game.players[game.turn] && ws === game.players[game.turn].ws) || bypassTurn) {
+                    if (data && Number.isInteger(data.index)) {
+                        const player = game.fromWS(ws);
+                        const card = player.hand[data.index];
+                        if (game.playCard(player, data.index)) {
+                            const index = data.index;
+                            broadcast(JSON.stringify({ type: "info", string: "Card played", data: { card, index } }));
+                        } else {
+                            ws.send(JSON.stringify({ type: "error", string: "Cannot play that card" }));
+                        }
+                    }
+                } else { ws.send(JSON.stringify({ type: "error", string: "Not your turn" })); }
+                game.players.forEach((player) => informCounters(player.ws));
                 break;
             }
 
@@ -84,8 +100,10 @@ wss.on('connection', (ws) => {
                     console.log(game);
                     game.players.forEach((player, index) => {
                         player.hand.forEach(card => {
-                            player.ws.send(JSON.stringify({ type: "command", string: "addCard", data: { card: card } }));
+                            player.ws.send(JSON.stringify({ type: "command", string: "addCard hand", data: { card: card } }));
                         });
+                        player.ws.send(JSON.stringify({ type: "command", string: "setClosed", data: { cards: player.closed } }));
+                        player.ws.send(JSON.stringify({ type: "command", string: "setOpen", data: { cards: player.open } }));
                         player.ready = true;
                     });
                     broadcast(JSON.stringify({ type: "info", string: "Game started" }));
@@ -99,6 +117,7 @@ wss.on('connection', (ws) => {
 
     ws.on('close', () => { 
         console.log('WS connection closed');
+        game.removePlayer(ws);
         if (ws === host && wss.clients.size !== 0) {
             host = wss.clients.values().next().value;
             host.send(JSON.stringify({ type: "info", string: "HOST" }));
@@ -111,5 +130,8 @@ server.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-
+function informCounters(ws) {
+    ws.send(JSON.stringify({ type: "info", string: "Counters", data: { pile: game.pile.length, stock: game.stock.length } }));
+    console.log(`${game.pile.length} cards in stock, ${game.stock.length} cards on pile`)
+}
 
