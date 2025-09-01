@@ -1,4 +1,4 @@
-ws = new WebSocket('wss://' + window.location.host);
+ws = new WebSocket('ws://' + window.location.host);
 
 console.log("play.js loaded");
 

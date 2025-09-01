@@ -1,7 +1,7 @@
 // server.js
 const express = require('express');
-const http = require('https');      // use https if you want TLS
-const WebSocket = require('wss');
+const http = require('http');      // use https if you want TLS
+const WebSocket = require('ws');
 const path = require('path');
 const fs = require('fs');
 
