@@ -10,12 +10,8 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 
-// If you want HTTPS instead, uncomment this:
-const options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-};
-const server = https.createServer(options, app);
+const http = require('http');
+const server = http.createServer(app);
 
 // Don’t aggressively cache HTML (dev convenience)
 app.use((req, res, next) => {
