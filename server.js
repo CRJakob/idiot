@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 // --- CONFIG ---
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8090;
 
 const app = express();
 
